@@ -37,7 +37,62 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (etSendNumber.getText().toString().equals("") == false){
-                    new ConnectSocketManager().execute(etSendNumber.getText().toString());
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 0; i < 127; i++) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
+                    for (int i = 127; i >= 0; i--) {
+                        int value = Integer.valueOf(etSendNumber.getText().toString()) + i;
+                        new ConnectSocketManager().execute(value+"");
+                    }
                 } else {
                     Toast.makeText(MainActivity.this, "You must fill number into box", Toast.LENGTH_SHORT).show();
                 }
@@ -61,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         int dstPort = 4567;
         @Override
         protected String doInBackground(String... args) {
-            Log.d(TAG, "doInBackground: Start");
+            Log.d(TAG, "doInBackground: Start with number " + Byte.valueOf(args[0]) );
             String response = null;
             Socket socket = null;
             DataOutputStream dOut = null;
@@ -69,15 +124,10 @@ public class MainActivity extends AppCompatActivity {
             int resultNumber = -1;
             try {
                 socket = new Socket(dstAddress, dstPort);
-                Log.d(TAG, "doInBackground: 1");
                 dOut = new DataOutputStream(socket.getOutputStream());
-                Log.d(TAG, "doInBackground: 2");
                 dOut.writeByte(Byte.valueOf(args[0]));
-                Log.d(TAG, "doInBackground: 3");
                 dIn = new DataInputStream(socket.getInputStream());
-                Log.d(TAG, "doInBackground: 4");
                 resultNumber = dIn.readByte();
-                Log.d(TAG, "doInBackground: 5");
                 response += "The number received from server: "+ resultNumber;
             } catch (UnknownHostException e) {
                 // TODO Auto-generated catch block
@@ -97,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-            Log.d(TAG, "doInBackground: Finish");
             return response;
         }
 

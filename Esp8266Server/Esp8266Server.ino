@@ -15,7 +15,6 @@ WiFiServer server(4567);
 WiFiClient serverClients[MAX_SRV_CLIENTS];
 
 void setup() {
-  Serial.begin(115200);
   initHardware();
   setupWiFi();
 }
@@ -36,6 +35,7 @@ void loop()
     WiFiClient serverClient = server.available();
     serverClient.stop();
   }
+
   for (i = 0; i < MAX_SRV_CLIENTS; i++) {
     if (serverClients[i] && serverClients[i].connected()) {
       if (serverClients[i].available()) {
@@ -45,15 +45,17 @@ void loop()
           Serial.print("Replying to client: ");
           Serial.println(data);
           serverClients[i].write(data);
+          digitalWrite(D4, LOW);
         }
       }
     }
   }
+  digitalWrite(D4, HIGH);
 }
 void setupWiFi()
 {
-  Serial.println();
   WiFi.mode(WIFI_AP);
+  Serial.println();
   Serial.print("Configuring access point...");
   /* You can remove the password parameter if you want the AP to be open. */
   WiFi.softAP(ssid, password);
@@ -67,6 +69,6 @@ void setupWiFi()
 void initHardware()
 {
   Serial.begin(115200);
-  pinMode(D0, OUTPUT);
-  digitalWrite(D0, HIGH);
+  pinMode(D4, OUTPUT);
+  digitalWrite(D4, HIGH);
 }
