@@ -64,19 +64,19 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "doInBackground: Start");
             String response = null;
             Socket socket = null;
+            DataOutputStream dOut = null;
+            DataInputStream dIn = null;
             int resultNumber = -1;
             try {
                 socket = new Socket(dstAddress, dstPort);
                 Log.d(TAG, "doInBackground: 1");
-                DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+                dOut = new DataOutputStream(socket.getOutputStream());
                 Log.d(TAG, "doInBackground: 2");
                 dOut.writeByte(Byte.valueOf(args[0]));
                 Log.d(TAG, "doInBackground: 3");
-                DataInputStream dIn = new DataInputStream(socket.getInputStream());
+                dIn = new DataInputStream(socket.getInputStream());
                 Log.d(TAG, "doInBackground: 4");
-                while ((resultNumber = dIn.readByte()) == 0) {
-                    Log.d(TAG, "doInBackground: haven't received data yet");
-                }
+                resultNumber = dIn.readByte();
                 Log.d(TAG, "doInBackground: 5");
                 response += "The number received from server: "+ resultNumber;
             } catch (UnknownHostException e) {
