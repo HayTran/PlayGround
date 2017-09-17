@@ -72,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "doInBackground: 2");
                 dOut.writeByte(Byte.valueOf(args[0]));
                 Log.d(TAG, "doInBackground: 3");
-//                DataInputStream dIn = new DataInputStream(socket.getInputStream());
-//                Log.d(TAG, "doInBackground: 4");
-//                while ((resultNumber = dIn.readByte()) == 0) {
-//                    Log.d(TAG, "doInBackground: haven't received data yet");
-//                }
+                DataInputStream dIn = new DataInputStream(socket.getInputStream());
+                Log.d(TAG, "doInBackground: 4");
+                while ((resultNumber = dIn.readByte()) == 0) {
+                    Log.d(TAG, "doInBackground: haven't received data yet");
+                }
                 Log.d(TAG, "doInBackground: 5");
                 response += "The number received from server: "+ resultNumber;
             } catch (UnknownHostException e) {

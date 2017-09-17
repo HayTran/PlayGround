@@ -1,33 +1,3 @@
-/*
- * Copyright (c) 2015, Majenko Technologies
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * 
- * * Redistributions in binary form must reproduce the above copyright notice, this
- *   list of conditions and the following disclaimer in the documentation and/or
- *   other materials provided with the distribution.
- * 
- * * Neither the name of Majenko Technologies nor the names of its
- *   contributors may be used to endorse or promote products derived from
- *   this software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 /* Create a WiFi access point and provide a web server on it. */
 
 #include <ESP8266WiFi.h>
@@ -35,8 +5,8 @@
 #include <ESP8266WebServer.h>
 
 /* Set these to your desired credentials. */
-const char *ssid = "Hay";
-const char *password = "hay12345678";
+const char *ssid = "Hay Tran";
+const char *password = "hoinguoikeben";
 WiFiServer server(4567);
 WiFiClient client;
 
@@ -53,14 +23,17 @@ void loop()
     if (!client.connected()) {
         // try to connect to a new client
         client = server.available();
-//        Serial.println("Not had client yet");
+        digitalWrite(D0,HIGH);
     } else {
+        byte data = 0;
         // read data from the connected client
         if (client.available() > 0) {
+            data = client.read();
             Serial.println();
-            Serial.print(client.read(),DEC);
+            Serial.print(data,DEC);
+            server.write(data);
         }
-        digitalWrite(D0,HIGH);
+        digitalWrite(D0,LOW);
     }
 }
 void setupWiFi()
@@ -78,6 +51,6 @@ void setupWiFi()
 void initHardware()
 {
   Serial.begin(115200);
-  pinMode(D0,LOW);
-  digitalWrite(D0,0);
+  pinMode(D0,OUTPUT);
+  digitalWrite(D0,HIGH);
 }
