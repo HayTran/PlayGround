@@ -4,11 +4,15 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 
+
 /* Set these to your desired credentials. */
 const char *ssid = "Hay Tran";
 const char *password = "hoinguoikeben";
+
+/* Set the number of client can connect*/
+#define MAX_SRV_CLIENTS 3
 WiFiServer server(4567);
-WiFiClient client;
+WiFiClient serverClients[MAX_SRV_CLIENTS];
 
 void setup() {
   Serial.begin(115200);
@@ -19,29 +23,32 @@ void setup() {
 
 void loop()
 {
-  if (!client.connected()) {
-    // try to connect to a new client
-    client = server.available();
-    digitalWrite(D0, HIGH);
-  } else {
-    // read data from the connected client
-    byte data = 0;
-    if (client.available() > 0) {
-      data = client.read();
-      Serial.println();
-      Serial.print(data, DEC);
-      Serial.println();
-      digitalWrite(D0, LOW);
+  uint8_t i;
+  if (server.hasClient()) {
+    for (i = 0; i < MAX_SRV_CLIENTS; i++) {
+      if (!serverClients[i] || !serverClients[i].connected()) {
+        if (serverClients[i]) serverClients[i].stop();
+        serverClients[i] = server.available();
+        continue;
+      }
     }
-    if (data != -1) {
-      Serial.print("Replying to client: ");
-      Serial.println(data, DEC);
-      client.write(data+3);
+    //no free spot
+    WiFiClient serverClient = server.available();
+    serverClient.stop();
+  }
+  for (i = 0; i < MAX_SRV_CLIENTS; i++) {
+    if (serverClients[i] && serverClients[i].connected()) {
+      if (serverClients[i].available()) {
+        while (serverClients[i].available()) {
+          byte data = serverClients[i].read();
+          Serial.println(data, DEC);
+          Serial.print("Replying to client: ");
+          Serial.println(data);
+          serverClients[i].write(data);
+        }
+      }
     }
   }
-
-  Serial.print("Client status: ");
-  Serial.println(client.status());
 }
 void setupWiFi()
 {
